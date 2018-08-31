@@ -40,7 +40,7 @@ public class EventHandler {
 			for(String item : stringArray){
 				if (item.equals("")) {
 					quoteRepository.save(new Quote(quoteString));
-					quoteString = "";
+					quoteString = "";	
 				}
 				quoteString = quoteString + item;
 			}
