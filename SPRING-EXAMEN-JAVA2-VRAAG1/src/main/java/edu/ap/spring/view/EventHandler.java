@@ -1,30 +1,24 @@
 package edu.ap.spring.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import edu.ap.spring.jpa.Quote;
 import edu.ap.spring.jpa.QuoteRepository;
+
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 @Service
 public class EventHandler {
 	
 	private UI ui;
     private QuoteRepository quoteRepository;
-    
-
     
     @Autowired
     public void setRepository(QuoteRepository quoteRepository) {
@@ -50,9 +44,22 @@ public class EventHandler {
 				}
 				quoteString = quoteString + item;
 			}
+			
+			System.out.println(quoteRepository.findAll());
+			
+			for (String string : stringArray) {
+				ui.getQuotes().append(string + "\n");
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}    
+	    ui.getBtnImportQuotes().setPreferredSize(new Dimension(10, 10));
+	    ui.getBtnSearch().setPreferredSize(new Dimension(10, 10));
+	    ui.getjFrame().setContentPane(ui.getControlPanel());
+	    ui.getjFrame().pack();
+	    ui.getjFrame().setVisible(true);
+
     }
     
     public void whenSearchButtonClicked(ActionEvent actionEvent) {
@@ -63,6 +70,8 @@ public class EventHandler {
 		for (Quote quote : quotes) {
 			if (quote.toString().contains(searchedQuote)) {
 				System.out.println(quote);
+				ui.getSearchedQuotes().append(quote + "\n");
+
 			}
 		}	
     }

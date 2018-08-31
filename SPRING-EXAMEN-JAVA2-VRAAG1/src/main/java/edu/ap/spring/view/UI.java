@@ -1,13 +1,14 @@
 package edu.ap.spring.view;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import edu.ap.spring.jpa.Quote;
 import edu.ap.spring.jpa.QuoteRepository;
 
 @Component
@@ -32,7 +32,7 @@ public class UI implements InitializingBean {
 	private JTextField searchQuote;
     private JButton btnImportQuotes, btnSearch;
     
-    private JList<String> jList;
+    private JTextArea quotes, searchedQuotes;
     
     public void setupUI() {
 	    jFrame = new JFrame("Spring JFrame");
@@ -53,16 +53,19 @@ public class UI implements InitializingBean {
 	    
 	    searchQuote = new JTextField();
 	    
-	    jList = new JList(quoteRepository.findAll().toArray()); 
+	    quotes = new JTextArea(); 
+	    searchedQuotes = new JTextArea(); 
 	    
 	    controlPanel.add(btnImportQuotes);
 	    controlPanel.add(btnSearch);
 	    controlPanel.add(searchQuote);
-	    controlPanel.add(jList);
+	    controlPanel.add(quotes);
+	    controlPanel.add(searchedQuotes);
 	    
 		jFrame.add(controlPanel);
-		        
-		jFrame.setSize(300, 300);
+		
+
+		jFrame.setPreferredSize(new Dimension(500, 500));
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.pack();
@@ -83,14 +86,36 @@ public class UI implements InitializingBean {
 
 
 
-	public JList<String> getjList() {
-		return jList;
+	
+
+
+
+	public JTextArea getSearchedQuotes() {
+		return searchedQuotes;
 	}
 
 
 
-	public void setjList(JList<String> jList) {
-		this.jList = jList;
+	public void setSearchedQuotes(JTextArea searchedQuotes) {
+		this.searchedQuotes = searchedQuotes;
+	}
+
+
+
+	public void setQuotes(JTextArea quotes) {
+		this.quotes = quotes;
+	}
+
+
+
+	public JTextArea getQuotes() {
+		return quotes;
+	}
+
+
+
+	public void setgetQuotes(JTextArea jTextArea) {
+		this.quotes = jTextArea;
 	}
 
 
