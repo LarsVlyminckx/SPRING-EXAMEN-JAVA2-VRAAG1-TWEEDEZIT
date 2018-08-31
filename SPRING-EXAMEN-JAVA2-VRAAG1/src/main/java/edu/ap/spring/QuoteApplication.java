@@ -18,6 +18,7 @@ public class QuoteApplication {
 	@Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return (args) -> {
+			ui.setupUI();
 		};
     }
 	
