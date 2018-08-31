@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
@@ -13,18 +15,24 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import edu.ap.spring.jpa.Quote;
+import edu.ap.spring.jpa.QuoteRepository;
+
 @Component
 public class UI implements InitializingBean {
 
 	@Autowired
 	EventHandler eventHandler;
 	
+	@Autowired
+	QuoteRepository quoteRepository;
 	
 	private JFrame jFrame;
 	private JPanel controlPanel;
-
 	private JTextField searchQuote;
-    private JButton btnImportQuotes;
+    private JButton btnImportQuotes, btnSearch;
+    
+    private JList<String> jList;
     
     public void setupUI() {
 	    jFrame = new JFrame("Spring JFrame");
@@ -38,18 +46,127 @@ public class UI implements InitializingBean {
 	    btnImportQuotes.setTransferHandler(new TransferHandler("text"));
 	    btnImportQuotes.addActionListener(eventHandler::whenImportButtonClicked);
 	    
+	    btnSearch = new JButton();
+	    btnSearch.setText("Search quotes");
+	    btnSearch.setTransferHandler(new TransferHandler("text"));
+	    btnSearch.addActionListener(eventHandler::whenSearchButtonClicked);
+	    
+	    searchQuote = new JTextField();
+	    
+	    jList = new JList(quoteRepository.findAll().toArray()); 
+	    
 	    controlPanel.add(btnImportQuotes);
-
+	    controlPanel.add(btnSearch);
+	    controlPanel.add(searchQuote);
+	    controlPanel.add(jList);
+	    
 		jFrame.add(controlPanel);
 		        
-		jFrame.setSize(400, 400);
+		jFrame.setSize(300, 300);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.pack();
 		jFrame.setVisible(true);
     }
 
+    
 	
+	public JButton getBtnSearch() {
+		return btnSearch;
+	}
+
+
+
+	public void setBtnSearch(JButton btnSearch) {
+		this.btnSearch = btnSearch;
+	}
+
+
+
+	public JList<String> getjList() {
+		return jList;
+	}
+
+
+
+	public void setjList(JList<String> jList) {
+		this.jList = jList;
+	}
+
+
+
+	public EventHandler getEventHandler() {
+		return eventHandler;
+	}
+
+
+
+	public void setEventHandler(EventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
+
+
+
+	public QuoteRepository getQuoteRepository() {
+		return quoteRepository;
+	}
+
+
+
+	public void setQuoteRepository(QuoteRepository quoteRepository) {
+		this.quoteRepository = quoteRepository;
+	}
+
+
+
+	public JFrame getjFrame() {
+		return jFrame;
+	}
+
+
+
+	public void setjFrame(JFrame jFrame) {
+		this.jFrame = jFrame;
+	}
+
+
+
+	public JPanel getControlPanel() {
+		return controlPanel;
+	}
+
+
+
+	public void setControlPanel(JPanel controlPanel) {
+		this.controlPanel = controlPanel;
+	}
+
+
+
+	public JTextField getSearchQuote() {
+		return searchQuote;
+	}
+
+
+
+	public void setSearchQuote(JTextField searchQuote) {
+		this.searchQuote = searchQuote;
+	}
+
+
+
+	public JButton getBtnImportQuotes() {
+		return btnImportQuotes;
+	}
+
+
+
+	public void setBtnImportQuotes(JButton btnImportQuotes) {
+		this.btnImportQuotes = btnImportQuotes;
+	}
+
+
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.setProperty("java.awt.headless", "false");

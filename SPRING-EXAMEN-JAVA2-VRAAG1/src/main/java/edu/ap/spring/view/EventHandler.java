@@ -15,6 +15,9 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 @Service
 public class EventHandler {
 	
@@ -36,26 +39,31 @@ public class EventHandler {
     public void whenImportButtonClicked(ActionEvent actionEvent) {
 		String fileName = "oscar_wilde.txt";
 		
-//		Path newPath1 = Paths.get(newFileName1);
 		List<String> stringArray = new ArrayList<>();
 		try (Stream<String> streams = Files.lines(Paths.get(fileName))) {
 			stringArray = streams.collect(Collectors.toList());
-
 			String quoteString = "";
 			for(String item : stringArray){
 				if (item.equals("")) {
 					quoteRepository.save(new Quote(quoteString));
 					quoteString = "";
-//					System.out.println("delete line");
 				}
 				quoteString = quoteString + item;
 			}
-			
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}    
+    }
+    
+    public void whenSearchButtonClicked(ActionEvent actionEvent) {
+		String searchedQuote = ui.getSearchQuote().getText();
 		
-		System.out.println(quoteRepository.findAll());
+		List<Quote> quotes = quoteRepository.findAll();
+		
+		for (Quote quote : quotes) {
+			if (quote.toString().contains(searchedQuote)) {
+				System.out.println(quote);
+			}
+		}	
     }
 }

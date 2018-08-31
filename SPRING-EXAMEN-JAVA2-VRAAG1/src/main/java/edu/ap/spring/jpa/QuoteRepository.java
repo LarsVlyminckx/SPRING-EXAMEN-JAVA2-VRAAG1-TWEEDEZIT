@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface QuoteRepository extends CrudRepository<Quote, Long> {
 	
 	List<Quote> findByQuote(String quote);
+	List<Quote> findAll();
 }
 
